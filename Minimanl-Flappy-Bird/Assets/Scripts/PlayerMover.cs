@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Scoring;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -16,7 +17,15 @@ public class PlayerMover : MonoBehaviour
     public float maxFallSpeed = -20.0f;
 
     public int points;
+
+    [SerializeField] int highScorePoints;
     public TextMeshProUGUI score;
+
+    public TextMeshProUGUI highScore;
+
+    public TextMeshProUGUI currentScore;
+
+    public Canvas highScoreCanvas;
 
     private Rigidbody2D rb2d;
     public bool isDead = false;
@@ -29,11 +38,19 @@ public class PlayerMover : MonoBehaviour
 
     AudioSource playerSounds;
 
+    
+    void Awake()
+    {
+        Scoring.Scoring.highScorePoints = PlayerPrefs.GetInt("High Score");
+    }
+
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         playerSounds = GetComponent<AudioSource>();
         StartSequence();
+
+        Application.targetFrameRate = 300;
     }
 
     private void Update()
@@ -74,6 +91,8 @@ public class PlayerMover : MonoBehaviour
         jumpForce = 0;
         gravity = 0;
         score.text = "0";
+
+        highScoreCanvas.GetComponent<Canvas>().enabled = false;
     }
 
     void Playing()
@@ -106,6 +125,8 @@ public class PlayerMover : MonoBehaviour
         jumpForce = 0;
         gravity = 0;
         playerSounds.PlayOneShot(failSFX);
+
+        HighScorePanelController();
     }
 
     void ReloadScene()
@@ -122,5 +143,19 @@ public class PlayerMover : MonoBehaviour
             score.text = points.ToString();
             playerSounds.PlayOneShot(successSFX);
         }
+    }
+
+    void HighScorePanelController()
+    {
+        highScoreCanvas.GetComponent<Canvas>().enabled = true;
+        currentScore.text = points.ToString();
+
+        if(points > Scoring.Scoring.highScorePoints)
+        {
+           Scoring.Scoring.highScorePoints = points;
+           PlayerPrefs.SetInt("High Score", Scoring.Scoring.highScorePoints);
+        }
+
+        highScore.text = Scoring.Scoring.highScorePoints.ToString();
     }
 }

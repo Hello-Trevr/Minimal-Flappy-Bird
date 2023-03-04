@@ -159,3 +159,4 @@ public class PlayerMover : MonoBehaviour
         highScore.text = Scoring.Scoring.highScorePoints.ToString();
     }
 }
+

@@ -33,10 +33,13 @@ public class PlayerMover : MonoBehaviour
     public GameObject pipeSpawner;
 
     public AudioClip successSFX;
+    public AudioClip newHighScoreSFX;
     public AudioClip failSFX;
     public AudioClip jumpSFX;
 
     AudioSource playerSounds;
+
+    public ParticleSystem newHighScoreFX;
 
     
     void Awake()
@@ -154,6 +157,8 @@ public class PlayerMover : MonoBehaviour
         {
            Scoring.Scoring.highScorePoints = points;
            PlayerPrefs.SetInt("High Score", Scoring.Scoring.highScorePoints);
+           newHighScoreFX.Play();
+           playerSounds.PlayOneShot(newHighScoreSFX);
         }
 
         highScore.text = Scoring.Scoring.highScorePoints.ToString();

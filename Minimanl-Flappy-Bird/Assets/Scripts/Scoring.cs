@@ -8,6 +8,7 @@ namespace Scoring
 public class Scoring : MonoBehaviour
 {
    public static int highScorePoints;
+   public static int totalScorePoints;
 }
 
 }

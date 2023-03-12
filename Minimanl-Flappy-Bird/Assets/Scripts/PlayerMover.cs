@@ -19,11 +19,14 @@ public class PlayerMover : MonoBehaviour
     public int points;
 
     [SerializeField] int highScorePoints;
+    [SerializeField] int totalScorePoints;
     public TextMeshProUGUI score;
 
     public TextMeshProUGUI highScore;
 
     public TextMeshProUGUI currentScore;
+
+    public TextMeshProUGUI totalScore;
 
     public Canvas highScoreCanvas;
 
@@ -45,6 +48,7 @@ public class PlayerMover : MonoBehaviour
     void Awake()
     {
         Scoring.Scoring.highScorePoints = PlayerPrefs.GetInt("High Score");
+        Scoring.Scoring.totalScorePoints = PlayerPrefs.GetInt("Total Points");
     }
 
     private void Start()
@@ -130,6 +134,7 @@ public class PlayerMover : MonoBehaviour
         playerSounds.PlayOneShot(failSFX);
 
         HighScorePanelController();
+        AddToTotalPoints();
     }
 
     void ReloadScene()
@@ -162,6 +167,14 @@ public class PlayerMover : MonoBehaviour
         }
 
         highScore.text = Scoring.Scoring.highScorePoints.ToString();
+    }
+
+    void AddToTotalPoints()
+    {
+        totalScorePoints = Scoring.Scoring.totalScorePoints + points;
+        Scoring.Scoring.totalScorePoints = totalScorePoints;
+        totalScore.text = totalScorePoints.ToString();
+        PlayerPrefs.SetInt("Total Points", Scoring.Scoring.totalScorePoints);
     }
 }
 

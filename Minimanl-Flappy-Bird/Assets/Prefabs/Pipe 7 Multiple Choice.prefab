@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1819290965766028134}
   - component: {fileID: 71670299071245619}
   m_Layer: 0
-  m_Name: Pipe 2 1
+  m_Name: Pipe 7 Multiple Choice
   m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,15 +9,19 @@ public class PipeSpawner : MonoBehaviour
     public int numberOfPoints;
     public float spawnDelay = 2.0f;
     public float maxSpawnDelay;
+    public float spawnDelayDecrease;
     public float pipeSpeed = 2.0f;
     public float maxPipeSpeed;
+    public float pipeSpeedIncrease;
     public float spawnRange = 2.0f;
-    public float difficultyScale = 2f;
+    public float difficultySpeedScale = 2f;
+    public float difficultyPipeScale = 5f;
     public int pipeObjectCounter; //Determines the number of Pipe prefabs to began spawning
 
     private float timer = 0.0f;
 
     bool isHarder = false;
+    bool isAddPipe = false;
 
 
     private void Update()
@@ -38,15 +42,17 @@ public class PipeSpawner : MonoBehaviour
     private void SpawnPipe()
     {
         float yPos = Random.Range(-spawnRange, spawnRange);
-        int pipeSort = Random.Range(0, pipeObjectCounter - 1);
+        float randomNumber= Mathf.Round(Random.Range(0, pipeObjectCounter));
+        
+        int randomPipe = (int) randomNumber;
 
-        GameObject pipe = Instantiate(pipePrefab[pipeSort], transform.position + new Vector3(0.0f, yPos, 0.0f), Quaternion.identity);
+        GameObject pipe = Instantiate(pipePrefab[randomPipe], transform.position + new Vector3(0.0f, yPos, 0.0f), Quaternion.identity);
 
     }
 
     void DifficultyController()
     {
-        if(numberOfPoints % difficultyScale == 0 && numberOfPoints > 0 && !isHarder)
+        if(numberOfPoints % difficultyPipeScale == 0 && numberOfPoints > 0 && !isHarder)
         {
            
             IncrementPipeVariables();
@@ -58,9 +64,23 @@ public class PipeSpawner : MonoBehaviour
 
             isHarder = true;
         } 
-        else if(numberOfPoints % 2 != 0)
+        else if(numberOfPoints % difficultySpeedScale != 0)
         {
             isHarder = false;
+        }
+
+        if(numberOfPoints % difficultyPipeScale == 0 && numberOfPoints > 0 && !isHarder)
+        {
+            if(pipeObjectCounter < pipePrefab.Length)
+            {
+                pipeObjectCounter++;
+            }
+
+            isAddPipe = true;
+        }
+         else if(numberOfPoints % difficultyPipeScale != 0)
+        {
+            isAddPipe = false;
         }
     }
 
@@ -68,12 +88,12 @@ public class PipeSpawner : MonoBehaviour
     {
         if(maxPipeSpeed > pipeSpeed)
         {
-            pipeSpeed = pipeSpeed + .2f;
+            pipeSpeed = pipeSpeed + pipeSpeedIncrease;
         }
         
         if(maxSpawnDelay < spawnDelay)
         {
-            spawnDelay = spawnDelay - .2f;
+            spawnDelay = spawnDelay - spawnDelayDecrease;
         }
     }
 

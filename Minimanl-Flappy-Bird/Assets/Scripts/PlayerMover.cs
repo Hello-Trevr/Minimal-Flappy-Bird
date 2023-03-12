@@ -28,6 +28,8 @@ public class PlayerMover : MonoBehaviour
 
     public TextMeshProUGUI totalScore;
 
+    public TextMeshProUGUI newRecordText;
+
     public Canvas highScoreCanvas;
 
     private Rigidbody2D rb2d;
@@ -100,6 +102,7 @@ public class PlayerMover : MonoBehaviour
         score.text = "0";
 
         highScoreCanvas.GetComponent<Canvas>().enabled = false;
+        newRecordText.enabled = false;
     }
 
     void Playing()
@@ -147,7 +150,6 @@ public class PlayerMover : MonoBehaviour
          if(other.gameObject.tag == "PointCollider" && !isDead)
         {
             points++;
-            Debug.Log(points);
             score.text = points.ToString();
             playerSounds.PlayOneShot(successSFX);
         }
@@ -164,6 +166,7 @@ public class PlayerMover : MonoBehaviour
            PlayerPrefs.SetInt("High Score", Scoring.Scoring.highScorePoints);
            newHighScoreFX.Play();
            playerSounds.PlayOneShot(newHighScoreSFX);
+           newRecordText.enabled = true;
         }
 
         highScore.text = Scoring.Scoring.highScorePoints.ToString();

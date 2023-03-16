@@ -52,15 +52,10 @@ public class PipeSpawner : MonoBehaviour
 
     void DifficultyController()
     {
-        if(numberOfPoints % difficultyPipeScale == 0 && numberOfPoints > 0 && !isHarder)
+        if(numberOfPoints % difficultySpeedScale == 0 && numberOfPoints > 0 && !isHarder)
         {
            
             IncrementPipeVariables();
-
-            if(pipeObjectCounter < pipePrefab.Length)
-            {
-                pipeObjectCounter++;
-            }
 
             isHarder = true;
         } 
@@ -69,7 +64,7 @@ public class PipeSpawner : MonoBehaviour
             isHarder = false;
         }
 
-        if(numberOfPoints % difficultyPipeScale == 0 && numberOfPoints > 0 && !isHarder)
+        if(numberOfPoints % difficultyPipeScale == 0 && numberOfPoints > 0 && !isAddPipe)
         {
             if(pipeObjectCounter < pipePrefab.Length)
             {
